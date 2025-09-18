@@ -4,6 +4,7 @@ import bodyParser from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./router/user.js";
+import authRouter from "./router/auth.js";
 import productRouter from "./router/product.js";
 import cartRouter from "./router/cart.js";
 import addressRouter from "./router/address.js";
@@ -24,6 +25,7 @@ app.use(
 
 app.get("/", (req, res) => res.send({ message: "This Is Home Route" }));
 
+app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);

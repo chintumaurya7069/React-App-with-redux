@@ -36,6 +36,11 @@ const UsersTable = () => {
       searchable: true,
     },
     {
+      field: "userName",
+      header: "User Name",
+      searchable: true,
+    },
+    {
       field: "number",
       header: "Phone",
       searchable: true,

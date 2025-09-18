@@ -17,7 +17,7 @@ const AdminLayout = () => {
       />
 
       <main className="flex-1 flex flex-col overflow-y-auto ">
-        <div className="container mx-auto p-5 h-screen mb-5 border border-gray-300 rounded-2xl shadow">
+        <div className="container mx-auto p-5 h-screen border border-gray-300 rounded-2xl shadow">
           <Outlet />
         </div>
       </main>

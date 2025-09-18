@@ -38,9 +38,6 @@ export const getCart = async (req, res) => {
   }
 };
 
-
-// import { CartItem } from "../model/CartItem.js";
-
 // // 🛒 Add item to cart
 // export const addToCart = async (req, res) => {
 //   const { userId, productId, qty = 1 } = req.body;

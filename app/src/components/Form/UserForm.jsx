@@ -4,27 +4,31 @@ import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { editUser, insertUser, fetchUser } from "../../redux/user/userThunkApp";
 
-const getValidationSchema = () => {
+const UserForm = ({ show, handleClose, data }) => {
+  const dispatch = useDispatch();
+
+  const getValidationSchema = () => {
   return Yup.object({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    number: Yup.string()
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(10, "Must be 10 digits")
-      .max(10, "Must be 10 digits"),
+    userName: Yup.string().required("User name is required"),
+     ...(data && {
+      number: Yup.string()
+        .required("Phone number is required")
+        .matches(/^\d+$/, "Phone number must be numeric")
+        .min(10, "Phone number must be at least 10 digits"),
+    }),
   });
 };
-
-const UserForm = ({ show, handleClose, data }) => {
-  const dispatch = useDispatch();
 
   const initialValues = {
     firstName: data?.firstName || "",
     lastName: data?.lastName || "",
     email: data?.email || "",
+    userName: data?.userName || "",
     number: data?.number || "",
   };
 
@@ -35,7 +39,6 @@ const UserForm = ({ show, handleClose, data }) => {
       } else {
         await dispatch(insertUser(values));
       }
-      console.log("Closing modal now...");
       handleClose();
       await dispatch(fetchUser());
     } catch (error) {
@@ -125,6 +128,29 @@ const UserForm = ({ show, handleClose, data }) => {
                 </div>
 
                 <div>
+                  <label htmlFor="userName" className="block font-medium mb-1">
+                    User Name
+                  </label>
+                  <Field
+                    type="text"
+                    name="userName"
+                    placeholder="658 799 8941"
+                    className={`w-full border rounded px-3 py-2 ${
+                      touched.userName && errors.userName
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="userName"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
+              </div>
+
+              {data && (
+                <div>
                   <label htmlFor="number" className="block font-medium mb-1">
                     Phone Number
                   </label>
@@ -144,7 +170,7 @@ const UserForm = ({ show, handleClose, data }) => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-              </div>
+              )}
 
               <div className="flex justify-end mt-6 gap-3">
                 <button
